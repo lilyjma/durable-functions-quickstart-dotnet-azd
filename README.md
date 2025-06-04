@@ -102,9 +102,9 @@ Navigate to the `FanOutFanIn` app folder and create a file in that folder named 
 1. From your HTTP test tool in a new terminal (or from your browser), call the HTTP trigger endpoint: <http://localhost:7071/api/ConcurrentFetchOrchestration_HttpStart> to start a new orchestration instance.
 
 ## Source Code
-Fanning out is easy to do even with regular functions, simply send multiple messages to a queue. However, the fanning in is more challenging, because you need to track when all the functions are completed and store the outputs. 
+Fanning out is easy to do even with regular functions, simply send multiple messages to a queue. However, fanning in is more challenging, because you need to track when all the functions are completed and store the outputs.
 
-Durable Functions does the heavy lifting for you. In `ConcurrentFetchOrchestration`, the `tasks.Add(context.CallActivityAsync<string>());` fans out the work to multiple instances of the `FetchTitleAsync`function. The work is tracked using a dynamic task list. The line `await Task.WhenAll(tasks);` waits for all the called functions to complete, after which the function outputs are aggregated. In this simple scenario, the aggregated results are simply returned as a formatted string, but you could apply more business logic as needed, such as uploading the result to storage or sending it downstream through another activity function.
+Durable Functions makes implementing fan-out/fan-in easy for you. In `ConcurrentFetchOrchestration`, the `tasks.Add(context.CallActivityAsync<string>());` fans out the work to multiple instances of the `FetchTitleAsync`function. The work is tracked using a dynamic task list. The line `await Task.WhenAll(tasks);` waits for all the called functions to complete, after which the function outputs are aggregated. In this simple scenario, the aggregated results are simply returned as a formatted string, but you could apply more business logic as needed, such as uploading the result to storage or sending it downstream through another activity function.
 
 ```csharp
 [Function(nameof(ConcurrentFetchOrchestration))]
