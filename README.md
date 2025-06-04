@@ -104,7 +104,7 @@ Navigate to the `FanOutFanIn` app folder and create a file in that folder named 
 ## Source Code
 Fanning out is easy to do even with regular functions, simply send multiple messages to a queue. However, fanning in is more challenging, because you need to track when all the functions are completed and store the outputs.
 
-Durable Functions makes implementing fan-out/fan-in easy for you. In `ConcurrentFetchOrchestration`, the `tasks.Add(context.CallActivityAsync<string>());` fans out the work to multiple instances of the `FetchTitleAsync`function. The work is tracked using a dynamic task list. The line `await Task.WhenAll(tasks);` waits for all the called functions to complete, after which the function outputs are aggregated. In this simple scenario, the aggregated results are simply returned as a formatted string, but you could apply more business logic as needed, such as uploading the result to storage or sending it downstream through another activity function.
+Durable Functions makes implementing fan-out/fan-in easy for you. This sample uses a simple scenario of fetching article titles in parallel to demonstrate how you can implement the pattern with Durable Functions. In `ConcurrentFetchOrchestration`, the title fetching activities are tracked using a dynamic task list. The line `await Task.WhenAll(parallelTasks);` waits for all the called activities to complete, after which the outputs are aggregated. In this simple scenario, the aggregated results are simply returned as a formatted string, but you could apply more business logic as needed, such as uploading the result to storage or sending it downstream by calling another activity function.
 
 ```csharp
 [Function(nameof(ConcurrentFetchOrchestration))]
