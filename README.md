@@ -102,9 +102,9 @@ Navigate to the `FanOutFanIn` app folder and create a file in that folder named 
 1. From your HTTP test tool in a new terminal (or from your browser), call the HTTP trigger endpoint: <http://localhost:7071/api/ConcurrentFetchOrchestration_HttpStart> to start a new orchestration instance.
 
 ## Source Code
-Fanning out is easy to do even with regular functions, simply send multiple messages to a queue. However, fanning in is more challenging, because you need to track when all the functions are completed and store the outputs.
+Fanning out is easy to do with regular functions, simply send multiple messages to a queue. However, fanning in is more challenging, because you need to track when all the functions are completed and store the outputs.
 
-Durable Functions makes implementing fan-out/fan-in easy for you. This sample uses a simple scenario of fetching article titles in parallel to demonstrate how you can implement the pattern with Durable Functions. In `ConcurrentFetchOrchestration`, the title fetching activities are tracked using a dynamic task list. The line `await Task.WhenAll(parallelTasks);` waits for all the called activities to complete, after which the outputs are aggregated. In this simple scenario, the aggregated results are simply returned as a formatted string, but you could apply more business logic as needed, such as uploading the result to storage or sending it downstream by calling another activity function.
+Durable Functions makes implementing fan-out/fan-in easy for you. This sample uses a simple scenario of fetching article titles in parallel to demonstrate how you can implement the pattern with Durable Functions. In `ConcurrentFetchOrchestration`, the title fetching activities are tracked using a dynamic task list. The line `await Task.WhenAll(parallelTasks);` waits for all the called activities, which are run concurrently, to complete. When done, all outputs are aggregated as a formatted string. More sophisticated aggregation logic is probably required in real-world scenarios, such as uploading the result to storage or sending it downstream, which you can do by calling another activity function.
 
 ```csharp
 [Function(nameof(ConcurrentFetchOrchestration))]
