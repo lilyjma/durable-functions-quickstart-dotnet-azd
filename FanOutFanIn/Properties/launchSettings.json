@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Quickstart_fan_out_fan_in": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7011",
+      "launchBrowser": false
+    }
+  }
+}
