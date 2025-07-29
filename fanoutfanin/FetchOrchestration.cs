@@ -7,13 +7,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Company.Function
 {
-    public static class ConcurrentFetchOrchestration
+    public static class FetchOrchestration
     {
-        [Function(nameof(ConcurrentFetchOrchestration))]
+        [Function(nameof(FetchOrchestration))]
         public static async Task<string> RunOrchestrator(
             [OrchestrationTrigger] TaskOrchestrationContext context)
         {
-            ILogger logger = context.CreateReplaySafeLogger(nameof(ConcurrentFetchOrchestration));
+            ILogger logger = context.CreateReplaySafeLogger(nameof(FetchOrchestration));
             logger.LogInformation("Fetching data.");
             var parallelTasks = new List<Task<string>>();
             
@@ -37,7 +37,7 @@ namespace Company.Function
             await Task.WhenAll(parallelTasks);
            
             // Return fetched titles as a formatted string
-            return string.Join(", ", parallelTasks.Select(t => t.Result));
+            return string.Join("; ", parallelTasks.Select(t => t.Result));
         }
 
         [Function(nameof(FetchTitleAsync))]
@@ -69,17 +69,17 @@ namespace Company.Function
             }
         }
 
-        [Function("ConcurrentFetchOrchestration_HttpStart")]
+        [Function("FetchOrchestration_HttpStart")]
         public static async Task<HttpResponseData> HttpStart(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
             [DurableClient] DurableTaskClient client,
             FunctionContext executionContext)
         {
-            ILogger logger = executionContext.GetLogger("ConcurrentFetchOrchestration_HttpStart");
+            ILogger logger = executionContext.GetLogger("FetchOrchestration_HttpStart");
 
             // Function input comes from the request content.
             string instanceId = await client.ScheduleNewOrchestrationInstanceAsync(
-                nameof(ConcurrentFetchOrchestration));
+                nameof(FetchOrchestration));
 
             logger.LogInformation("Started orchestration with ID = '{instanceId}'.", instanceId);
 

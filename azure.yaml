@@ -1,10 +1,10 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
 
-name: starter-dotnet8-flex-durable-func
+name: durable-functions-quickstart-dotnet-azd
 metadata:
-  template: durable-fan-out-fan-in-dotnet@1.0.0
+  template: durable-functions-quickstart-dotnet-azd@1.0.0
 services:
   api:
-    project: ./FanOutFanIn/
+    project: ./fanoutfanin/
     language: dotnet
     host: function

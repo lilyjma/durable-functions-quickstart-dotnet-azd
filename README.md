@@ -25,7 +25,7 @@ Durable Functions needs a [backend provider](https://learn.microsoft.com/azure/a
 
 This project is designed to run on your local computer. You can also use GitHub Codespaces:
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=836901178)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=995707591) 
 
 This codespace is already configured with the required tools to complete this tutorial using either `azd` or Visual Studio Code. If you're working a codespace, skip down to [Prepare your local environment](#prepare-your-local-environment).
 
@@ -56,14 +56,14 @@ You can initialize a project from this `azd` template in one of these ways:
 
     ```shell
     git clone https://github.com/Azure-Samples/durable-functions-quickstart-dotnet-azd.git
-    cd FanOutFanIn
+    cd fanoutfanin
     ```
 
     You can also clone the repository from your own fork in GitHub.
 
 ## Prepare your local environment
 
-Navigate to the `FanOutFanIn` app folder and create a file in that folder named _local.settings.json_ that contains this JSON data:
+Navigate to the `fanoutfanin` app folder and create a file in that folder named _local.settings.json_ that contains this JSON data:
 
 ```json
 {
@@ -77,41 +77,41 @@ Navigate to the `FanOutFanIn` app folder and create a file in that folder named 
 
 ## Run your app from the terminal
 
-1. From the `FanOutFanIn` folder, run this command to start the Functions host locally:
+1. From the `fanoutfanin` folder, run this command to start the Functions host locally:
 
     ```shell
     func start
     ```
 
-1. From your HTTP test tool in a new terminal (or from your browser), call the HTTP trigger endpoint: <http://localhost:7071/api/ConcurrentFetchOrchestration_HttpStart> to start a new orchestration instance. This orchestration then fans out to several activities to fetch the titles of Microsoft Learn articles in parallel. When the activities finish, the orchestration fans back in and returns the titles as a formatted string. 
+1. From your HTTP test tool in a new terminal (or from your browser), call the HTTP trigger endpoint: <http://localhost:7071/api/FetchOrchestration_HttpStart> to start a new orchestration instance. This orchestration then fans out to several activities to fetch the titles of Microsoft Learn articles in parallel. When the activities finish, the orchestration fans back in and returns the titles as a formatted string. 
 
 1. When you're done, press Ctrl+C in the terminal window to stop the `func.exe` host process.
 
 ## Run your app using Visual Studio Code
 
-1. Open the `FanOutFanIn` app folder in a new terminal.
+1. Open the `fanoutfanin` app folder in a new terminal.
 1. Run the `code .` code command to open the project in Visual Studio Code.
 1. In the command palette (F1), type `Azurite: Start`, which enables debugging without warnings.
 1. Press **Run/Debug (F5)** to run in the debugger. Select **Debug anyway** if prompted about local emulator not running.
-1. From your HTTP test tool in a new terminal (or from your browser), call the HTTP trigger endpoint: <http://localhost:7071/api/ConcurrentFetchOrchestration_HttpStart> to start a new orchestration instance.
+1. From your HTTP test tool in a new terminal (or from your browser), call the HTTP trigger endpoint: <http://localhost:7071/api/FetchOrchestration_HttpStart> to start a new orchestration instance.
 
 ## Run your app using Visual Studio
 
-1. Open the `FanOutFanIn.sln` solution file in Visual Studio.
+1. Open the `fanoutfanin.sln` solution file in Visual Studio.
 1. Press **Run/F5** to run in the debugger. Make a note of the `localhost` URL endpoints, including the port, which might not be `7071`.
-1. From your HTTP test tool in a new terminal (or from your browser), call the HTTP trigger endpoint: <http://localhost:7071/api/ConcurrentFetchOrchestration_HttpStart> to start a new orchestration instance.
+1. From your HTTP test tool in a new terminal (or from your browser), call the HTTP trigger endpoint: <http://localhost:7071/api/FetchOrchestration_HttpStart> to start a new orchestration instance.
 
 ## Source Code
 Fanning out is easy to do with regular functions, simply send multiple messages to a queue. However, fanning in is more challenging, because you need to track when all the functions are completed and store the outputs.
 
-Durable Functions makes implementing fan-out/fan-in easy for you. This sample uses a simple scenario of fetching article titles in parallel to demonstrate how you can implement the pattern with Durable Functions. In `ConcurrentFetchOrchestration`, the title fetching activities are tracked using a dynamic task list. The line `await Task.WhenAll(parallelTasks);` waits for all the called activities, which are run concurrently, to complete. When done, all outputs are aggregated as a formatted string. More sophisticated aggregation logic is probably required in real-world scenarios, such as uploading the result to storage or sending it downstream, which you can do by calling another activity function.
+Durable Functions makes implementing fan-out/fan-in easy for you. This sample uses a simple scenario of fetching article titles in parallel to demonstrate how you can implement the pattern with Durable Functions. In `FetchOrchestration`, the title fetching activities are tracked using a dynamic task list. The line `await Task.WhenAll(parallelTasks);` waits for all the called activities, which are run concurrently, to complete. When done, all outputs are aggregated as a formatted string. More sophisticated aggregation logic is probably required in real-world scenarios, such as uploading the result to storage or sending it downstream, which you can do by calling another activity function.
 
 ```csharp
-[Function(nameof(ConcurrentFetchOrchestration))]
+[Function(nameof(FetchOrchestration))]
 public static async Task<string> RunOrchestrator(
     [OrchestrationTrigger] TaskOrchestrationContext context)
 {
-    ILogger logger = context.CreateReplaySafeLogger(nameof(ConcurrentFetchOrchestration));
+    ILogger logger = context.CreateReplaySafeLogger(nameof(FetchOrchestration));
     logger.LogInformation("Fetching data.");
     var parallelTasks = new List<Task<string>>();
     
