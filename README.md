@@ -75,6 +75,11 @@ Navigate to the `fanoutfanin` app folder and create a file in that folder named 
 }
 ```
 
+### Start Azurite
+The Functions runtime requires a storage component. The line `"AzureWebJobsStorage": "UseDevelopmentStorage=true"` above tells the runtime that the local storage emulator, Azurite, will be used. Azurite needs to be started before running the app, and there are two options to do that:
+    - Option 1: Run `npx azurite --skipApiVersionCheck --location ~/azurite-data`
+    - Option 2: Run `docker run -p 10000:10000 -p 10001:10001 -p 10002:10002 mcr.microsoft.com/azure-storage/azurite`
+
 ## Run your app from the terminal
 
 1. From the `fanoutfanin` folder, run this command to start the Functions host locally:
@@ -91,7 +96,6 @@ Navigate to the `fanoutfanin` app folder and create a file in that folder named 
 
 1. Open the `fanoutfanin` app folder in a new terminal.
 1. Run the `code .` code command to open the project in Visual Studio Code.
-1. In the command palette (F1), type `Azurite: Start`, which enables debugging without warnings.
 1. Press **Run/Debug (F5)** to run in the debugger. Select **Debug anyway** if prompted about local emulator not running.
 1. From your HTTP test tool in a new terminal (or from your browser), call the HTTP trigger endpoint: <http://localhost:7071/api/FetchOrchestration_HttpStart> to start a new orchestration instance.
 
@@ -100,6 +104,9 @@ Navigate to the `fanoutfanin` app folder and create a file in that folder named 
 1. Open the `fanoutfanin.sln` solution file in Visual Studio.
 1. Press **Run/F5** to run in the debugger. Make a note of the `localhost` URL endpoints, including the port, which might not be `7071`.
 1. From your HTTP test tool in a new terminal (or from your browser), call the HTTP trigger endpoint: <http://localhost:7071/api/FetchOrchestration_HttpStart> to start a new orchestration instance.
+
+> ![NOTE] 
+> If you run the app locally after running `azd up`, you may get `There was an error parsing the Connection String: Input contains invalid delimiters and cannot be parsed.` related to App Insights. Check for user secrets by running `dotnet user-secrets list`. If the list is populated, clear them by using `dotnet user-secrets clear` before running the app again. These secrets are auto populated by `azd up` during app deployment. 
 
 ## Source Code
 Fanning out is easy to do with regular functions, simply send multiple messages to a queue. However, fanning in is more challenging, because you need to track when all the functions are completed and store the outputs.
