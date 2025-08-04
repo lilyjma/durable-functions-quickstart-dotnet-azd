@@ -77,8 +77,8 @@ Navigate to the `fanoutfanin` app folder and create a file in that folder named 
 
 ### Start Azurite
 The Functions runtime requires a storage component. The line `"AzureWebJobsStorage": "UseDevelopmentStorage=true"` above tells the runtime that the local storage emulator, Azurite, will be used. Azurite needs to be started before running the app, and there are two options to do that:
-    - Option 1: Run `npx azurite --skipApiVersionCheck --location ~/azurite-data`
-    - Option 2: Run `docker run -p 10000:10000 -p 10001:10001 -p 10002:10002 mcr.microsoft.com/azure-storage/azurite`
+* Option 1: Run `npx azurite --skipApiVersionCheck --location ~/azurite-data`
+* Option 2: Run `docker run -p 10000:10000 -p 10001:10001 -p 10002:10002 mcr.microsoft.com/azure-storage/azurite`
 
 ## Run your app from the terminal
 
