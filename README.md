@@ -23,12 +23,6 @@ This template repository contains a Durable Functions sample demonstrating the f
 
 Durable Functions needs a [backend provider](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-storage-providers) to persist application states. This sample uses the Azure Storage backend. 
 
-This project is designed to run on your local computer. You can also use GitHub Codespaces:
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=995707591) 
-
-This codespace is already configured with the required tools to complete this tutorial using either `azd` or Visual Studio Code. If you're working a codespace, skip down to [Prepare your local environment](#prepare-your-local-environment).
-
 ## Prerequisites
 
 + [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
