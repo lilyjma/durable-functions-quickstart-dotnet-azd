@@ -176,8 +176,6 @@ You're prompted to supply these required deployment parameters:
 | _Azure subscription_ | Subscription in which your resources are created.|
 | _Azure location_ | Azure region in which to create the resource group that contains the new Azure resources. Only regions that currently support the Flex Consumption plan are shown.|
 
-After publish completes successfully, `azd` provides you with the URL endpoints of your new functions, but without the function key values required to access the endpoints. To learn how to obtain these same endpoints along with the required function keys, see [Invoke the function on Azure](https://learn.microsoft.com/azure/azure-functions/create-first-function-azure-developer-cli?pivots=programming-language-dotnet#invoke-the-function-on-azure).
-
 ## Test deployed app
 
 Once deployment is done, test the Durable Functions app by making an HTTP request to trigger the start of an orchestration. To get the endpoint quickly, run the following: 
